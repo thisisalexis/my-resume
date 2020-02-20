@@ -1,0 +1,28 @@
+version: '3.7'
+services:
+  resume-skills-app:
+    image: thisisalexis/resume-skills-app:1.0.0
+    container_name: resume-skills-app
+    ports:
+      - 8090:8080
+    working_dir: /opt/app
+    depends_on:
+      - resume-skills-mongo-db
+    links:
+      - resume-skills-mongo-db
+    networks:
+      - shared-net
+  resume-skills-mongo-db:
+    image: mongo
+    container_name: resume-skills-mongo-db
+    ports:  # for demo/debug purpose only
+      - 27017:27017
+    volumes:
+      - $HOME/data/resume-skills-mongo-db-data:/data/db
+      - $HOME/data/resume-skills-mongo-db-bkp:/data/bkp
+    restart: always
+    networks:
+      - shared-net
+networks:
+  shared-net:
+    driver: bridge
