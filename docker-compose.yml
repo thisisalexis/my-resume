@@ -1,5 +1,14 @@
 version: '3.7'
 services:
+  resume-discovery-service:
+    image: thisisalexis/resume-discovery-service:1.0.0
+    container_name: resume-discovery-service
+    hostname: resume-discovery-service
+    ports:
+      - 8761:8761
+    working_dir: /opt/app
+    networks:
+      - shared-net
   resume-skills-app:
     image: thisisalexis/resume-skills-app:1.0.0
     container_name: resume-skills-app
@@ -8,8 +17,10 @@ services:
     working_dir: /opt/app
     depends_on:
       - resume-skills-mongo-db
+      - resume-discovery-service
     links:
       - resume-skills-mongo-db
+      - resume-discovery-service
     networks:
       - shared-net
   resume-skills-mongo-db:
